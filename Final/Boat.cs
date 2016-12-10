@@ -56,14 +56,14 @@ namespace Final
 				targetPoint += 50;
 
 			bool canJump = pos.Y + size.Y > waterPoint;
-			bool isJumping = (keyboard.IsKeyDown(Keys.Up) && ((canJump && jumpCount == 0) || (jumpCount <= 28 && jumpCount != 0)));
+			bool isJumping = (IsKeyPressed(Keys.Up) && jumpCount == 0 && canJump) || (jumpCount <= 28 && jumpCount != 0);
 
 			if (isJumping)
 			{
 				targetPoint -= 150;
 				jumpCount++;
 			}
-			if (!keyboard.IsKeyDown(Keys.Up))
+			else
 				jumpCount = 0;
 
 			Move((int)pos.X, targetPoint-(size.Y/2), 0.9f, 0.025f);
@@ -72,6 +72,11 @@ namespace Final
 				Reset();
 
 			lastKeyboard = keyboard;
+		}
+
+		bool IsKeyPressed(Keys key)
+		{
+			return keyboard.IsKeyDown(key) && lastKeyboard.IsKeyUp(key);
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
