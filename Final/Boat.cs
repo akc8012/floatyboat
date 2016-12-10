@@ -21,8 +21,7 @@ namespace Final
 		const int jumpFrames = 28;
 
 		int waterPoint;
-		public Vector2 BoxCenter { get { return new Vector2(pos.X + size.X/2, pos.Y + size.Y/2); } }
-		public Vector2 CircleCenter { get { return new Vector2(pos.X + radius, pos.Y + radius); } }
+		public Vector2 Center { get { return new Vector2(pos.X + size.X/2, pos.Y + radius); } }
 		KeyboardState keyboard;
 		KeyboardState lastKeyboard;
 		int jumpCount = 0;
@@ -84,6 +83,8 @@ namespace Final
 			if (keyboard.IsKeyDown(Keys.R))
 				Reset();
 
+
+			Console.WriteLine(Center);
 			lastKeyboard = keyboard;
 		}
 
@@ -96,7 +97,7 @@ namespace Final
 		{
 			spriteBatch.Draw(texture, new Rectangle((int)pos.X, (int)pos.Y + camera.getOffsetY(), size.X, size.Y), Color.White);
 
-			spriteBatch.Draw(circleTex, new Rectangle((int)BoxCenter.X - (size.Y/2), (int)pos.Y + camera.getOffsetY(), radius*2, radius*2), Color.Blue);
+			spriteBatch.Draw(circleTex, new Rectangle((int)Center.X - (size.Y/2), (int)pos.Y + camera.getOffsetY(), radius*2, radius*2), Color.Blue);
 
 			spriteBatch.Draw(texture, new Rectangle(0, waterPoint + camera.getOffsetY(), Game1.width, 2), Color.Blue);
 		}

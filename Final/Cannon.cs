@@ -21,7 +21,7 @@ namespace Final
 			this.pos = pos;
 			this.boat = boat;
 			this.camera = camera;
-			vel = new Vector2(-10, 0);
+			vel = new Vector2(-1, 0);
 		}
 
 		public void LoadContent(Texture2D texture)
@@ -40,7 +40,7 @@ namespace Final
 				visible = true;
 			}
 
-			if (Vector2.Distance(Center, boat.CircleCenter) < radius + boat.Radius)
+			if (Vector2.Distance(Center, boat.Center) < (radius + boat.Radius))
 				visible = false;
 		}
 

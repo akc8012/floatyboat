@@ -32,7 +32,7 @@ namespace Final
 			camera = new Camera();
 			boat = new Boat(camera);
 			cannon = new Cannon(new Vector2(width, 345), boat, camera);
-			
+
 			base.Initialize();
 		}
 
