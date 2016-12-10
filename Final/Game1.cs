@@ -31,7 +31,7 @@ namespace Final
 
 			camera = new Camera();
 			boat = new Boat(camera);
-			cannon = new Cannon(new Vector2(width, 345), camera);
+			cannon = new Cannon(new Vector2(width, 345), boat, camera);
 			
 			base.Initialize();
 		}
@@ -40,7 +40,7 @@ namespace Final
 		{
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
-			boat.LoadContent(Content.Load<Texture2D>("boatTex"));
+			boat.LoadContent(Content.Load<Texture2D>("boatTex"), Content.Load<Texture2D>("cannonTex"));
 			cannon.LoadContent(Content.Load<Texture2D>("cannonTex"));
 		}
 

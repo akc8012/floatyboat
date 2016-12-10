@@ -8,9 +8,12 @@ namespace Final
 	class Boat
 	{
 		Texture2D texture;
+		Texture2D circleTex;
 		Vector2 pos;
 		Vector2 vel;
 		Point size;
+		int radius;
+		public int Radius { get { return radius; } }
 
 		const float gravity = 0.8f;
 		const int duckDist = 70;
@@ -18,7 +21,8 @@ namespace Final
 		const int jumpFrames = 28;
 
 		int waterPoint;
-		Vector2 Center { get { return new Vector2(pos.X + size.X/2, pos.Y + size.Y/2); } }
+		public Vector2 BoxCenter { get { return new Vector2(pos.X + size.X/2, pos.Y + size.Y/2); } }
+		public Vector2 CircleCenter { get { return new Vector2(pos.X + radius, pos.Y + radius); } }
 		KeyboardState keyboard;
 		KeyboardState lastKeyboard;
 		int jumpCount = 0;
@@ -37,10 +41,12 @@ namespace Final
 			vel = new Vector2(0, 0);
 		}
 
-		public void LoadContent(Texture2D texture)
+		public void LoadContent(Texture2D texture, Texture2D circle)
 		{
 			this.texture = texture;
+			circleTex = circle;
 			size = new Point(texture.Width, texture.Height);
+			radius = size.Y/2;
 		}
 
 		void Move(int centerX, int centerY, float inertia, float k)
@@ -62,7 +68,7 @@ namespace Final
 			if (keyboard.IsKeyDown(Keys.Down))
 				targetPoint += duckDist;
 
-			bool canJump = pos.Y + size.Y > waterPoint;
+			bool canJump = pos.Y+size.Y > waterPoint;
 			bool isJumping = (IsKeyPressed(Keys.Up) && jumpCount == 0 && canJump) || (jumpCount <= jumpFrames && jumpCount != 0);
 
 			if (isJumping)
@@ -89,6 +95,9 @@ namespace Final
 		public void Draw(SpriteBatch spriteBatch)
 		{
 			spriteBatch.Draw(texture, new Rectangle((int)pos.X, (int)pos.Y + camera.getOffsetY(), size.X, size.Y), Color.White);
+
+			spriteBatch.Draw(circleTex, new Rectangle((int)BoxCenter.X - (size.Y/2), (int)pos.Y + camera.getOffsetY(), radius*2, radius*2), Color.Blue);
+
 			spriteBatch.Draw(texture, new Rectangle(0, waterPoint + camera.getOffsetY(), Game1.width, 2), Color.Blue);
 		}
 	}
