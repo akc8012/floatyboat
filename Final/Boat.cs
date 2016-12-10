@@ -55,9 +55,7 @@ namespace Final
 			if (keyboard.IsKeyDown(Keys.Down))
 				targetPoint += 50;
 
-			bool canJump = true;
-
-
+			bool canJump = pos.Y + size.Y > waterPoint;
 			bool isJumping = (keyboard.IsKeyDown(Keys.Up) && ((canJump && jumpCount == 0) || (jumpCount <= 28 && jumpCount != 0)));
 
 			if (isJumping)
