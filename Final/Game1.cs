@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -14,6 +15,7 @@ namespace Final
 
 		Boat boat;
 		Cannon cannon;
+		Camera camera;
 
 		public Game1()
 		{
@@ -25,9 +27,11 @@ namespace Final
 		{
 			width = graphics.PreferredBackBufferWidth;
 			height = graphics.PreferredBackBufferHeight;
+			IsMouseVisible = true;
 
-			boat = new Boat();
-			cannon = new Cannon(new Vector2(width, 345));
+			camera = new Camera();
+			boat = new Boat(camera);
+			cannon = new Cannon(new Vector2(width, 345), camera);
 			
 			base.Initialize();
 		}
@@ -47,8 +51,15 @@ namespace Final
 
 		protected override void Update(GameTime gameTime)
 		{
-			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+			KeyboardState keyboard = Keyboard.GetState();
+
+			if (keyboard.IsKeyDown(Keys.Escape))
 				Exit();
+
+			if (keyboard.IsKeyDown(Keys.Down))
+				camera.SetOffset(new Vector2(0, -60), 0.075f, false);
+			else
+				camera.SetOffset(new Vector2(0, 0), 0.15f, true);
 
 			boat.Update();
 			cannon.Update();

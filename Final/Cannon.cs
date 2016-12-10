@@ -11,10 +11,12 @@ namespace Final
 		Vector2 pos;
 		Vector2 vel;
 		Point size;
+		Camera camera;
 
-		public Cannon(Vector2 pos)
+		public Cannon(Vector2 pos, Camera camera)
 		{
 			this.pos = pos;
+			this.camera = camera;
 			vel = new Vector2(-10, 0);
 		}
 
@@ -34,7 +36,7 @@ namespace Final
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			spriteBatch.Draw(texture, new Rectangle((int)pos.X, (int)pos.Y, size.X, size.Y), Color.White);
+			spriteBatch.Draw(texture, new Rectangle((int)pos.X, (int)pos.Y + camera.getOffsetY(), size.X, size.Y), Color.White);
 		}
 	}
 }
