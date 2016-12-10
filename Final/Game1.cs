@@ -6,8 +6,14 @@ namespace Final
 {
 	public class Game1 : Game
 	{
+		public static int width;
+		public static int height;
+
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
+
+		Boat boat;
+		Cannon cannon;
 
 		public Game1()
 		{
@@ -17,17 +23,21 @@ namespace Final
 
 		protected override void Initialize()
 		{
-			// TODO: Add your initialization logic here
+			width = graphics.PreferredBackBufferWidth;
+			height = graphics.PreferredBackBufferHeight;
 
+			boat = new Boat();
+			cannon = new Cannon(new Vector2(width, 345));
+			
 			base.Initialize();
 		}
 
 		protected override void LoadContent()
 		{
-			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
-			// TODO: use this.Content to load your game content here
+			boat.LoadContent(Content.Load<Texture2D>("boatTex"));
+			cannon.LoadContent(Content.Load<Texture2D>("cannonTex"));
 		}
 
 		protected override void UnloadContent()
@@ -40,16 +50,19 @@ namespace Final
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 
-			// TODO: Add your update logic here
-
+			boat.Update();
+			cannon.Update();
 			base.Update(gameTime);
 		}
 
 		protected override void Draw(GameTime gameTime)
 		{
-			GraphicsDevice.Clear(Color.CornflowerBlue);
+			GraphicsDevice.Clear(Color.SkyBlue);
 
-			// TODO: Add your drawing code here
+			spriteBatch.Begin();
+			boat.Draw(spriteBatch);
+			cannon.Draw(spriteBatch);
+			spriteBatch.End();
 
 			base.Draw(gameTime);
 		}
