@@ -14,7 +14,7 @@ namespace Final
 		SpriteBatch spriteBatch;
 
 		Boat boat;
-		Cannon cannon;
+		EnemyManager enemyManager;
 		Camera camera;
 
 		public Game1()
@@ -31,7 +31,7 @@ namespace Final
 
 			camera = new Camera();
 			boat = new Boat(camera);
-			cannon = new Cannon(new Vector2(width, 345), boat, camera);
+			enemyManager = new EnemyManager(boat, camera);
 
 			base.Initialize();
 		}
@@ -41,7 +41,7 @@ namespace Final
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			boat.LoadContent(Content.Load<Texture2D>("boatTex"), Content.Load<Texture2D>("cannonTex"));
-			cannon.LoadContent(Content.Load<Texture2D>("cannonTex"));
+			enemyManager.LoadContent(Content.Load<Texture2D>("cannonTex"), Content.Load<Texture2D>("sharkTex"));
 		}
 
 		protected override void UnloadContent()
@@ -62,7 +62,7 @@ namespace Final
 				camera.SetOffset(new Vector2(0, 0), 0.15f, true);
 
 			boat.Update();
-			cannon.Update();
+			enemyManager.Update();
 			base.Update(gameTime);
 		}
 
@@ -72,7 +72,7 @@ namespace Final
 
 			spriteBatch.Begin();
 			boat.Draw(spriteBatch);
-			cannon.Draw(spriteBatch);
+			enemyManager.Draw(spriteBatch);
 			spriteBatch.End();
 
 			base.Draw(gameTime);

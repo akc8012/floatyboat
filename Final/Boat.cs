@@ -15,13 +15,13 @@ namespace Final
 		int radius;
 		public int Radius { get { return radius; } }
 
-		const float gravity = 0.8f;
 		const int duckDist = 70;
 		const int jumpOffset = 150;
 		const int jumpFrames = 28;
 
 		int waterPoint;
 		public Vector2 Center { get { return new Vector2(pos.X + size.X/2, pos.Y + radius); } }
+		public Rectangle GetRectangle { get { return new Rectangle((int)pos.X, (int)pos.Y, size.X, size.Y); } }
 		KeyboardState keyboard;
 		KeyboardState lastKeyboard;
 		int jumpCount = 0;
@@ -82,9 +82,7 @@ namespace Final
 
 			if (keyboard.IsKeyDown(Keys.R))
 				Reset();
-
-
-			Console.WriteLine(Center);
+			
 			lastKeyboard = keyboard;
 		}
 
@@ -95,10 +93,13 @@ namespace Final
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
+			// boat
 			spriteBatch.Draw(texture, new Rectangle((int)pos.X, (int)pos.Y + camera.getOffsetY(), size.X, size.Y), Color.White);
 
-			spriteBatch.Draw(circleTex, new Rectangle((int)Center.X - (size.Y/2), (int)pos.Y + camera.getOffsetY(), radius*2, radius*2), Color.Blue);
+			// collision circle
+			//spriteBatch.Draw(circleTex, new Rectangle((int)Center.X - (size.Y/2), (int)pos.Y + camera.getOffsetY(), radius*2, radius*2), Color.Blue);
 
+			// water line
 			spriteBatch.Draw(texture, new Rectangle(0, waterPoint + camera.getOffsetY(), Game1.width, 2), Color.Blue);
 		}
 	}
