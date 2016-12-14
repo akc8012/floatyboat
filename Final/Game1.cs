@@ -17,6 +17,7 @@ namespace Final
 		EnemyManager enemyManager;
 		Camera camera;
 
+		SpriteFont hugeFont;
 		Texture2D heart;
 
 		enum State { Title, Game, End }
@@ -49,6 +50,7 @@ namespace Final
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			heart = Content.Load<Texture2D>("heartTex");
+			hugeFont = Content.Load<SpriteFont>("hugeFont");
 
 			boat.LoadContent(Content.Load<Texture2D>("boatTex"), Content.Load<Texture2D>("cannonTex"));
 			enemyManager.LoadContent(Content.Load<Texture2D>("cannonTex"), Content.Load<Texture2D>("sharkTex"));
@@ -104,11 +106,17 @@ namespace Final
 			GraphicsDevice.Clear(Color.SkyBlue);
 
 			spriteBatch.Begin();
+
+			// game
 			boat.Draw(spriteBatch);
 			enemyManager.Draw(spriteBatch);
-			spriteBatch.Draw(heart, new Rectangle(10, 15, 36, 32), new Rectangle(boat.GetHeart(0) ? 0 : 36, 0, 36, 32), Color.White);
-			spriteBatch.Draw(heart, new Rectangle(47, 15, 36, 32), new Rectangle(boat.GetHeart(1) ? 0 : 36, 0, 36, 32), Color.White);
-			spriteBatch.Draw(heart, new Rectangle(84, 15, 36, 32), new Rectangle(boat.GetHeart(2) ? 0 : 36, 0, 36, 32), Color.White);
+
+			// HUD
+			spriteBatch.Draw(heart, new Rectangle(10, 15, 36, 32), new Rectangle((boat.GetHeart(0) ? 0 : 36), 0, 36, 32), Color.White);
+			spriteBatch.Draw(heart, new Rectangle(47, 15, 36, 32), new Rectangle((boat.GetHeart(1) ? 0 : 36), 0, 36, 32), Color.White);
+			spriteBatch.Draw(heart, new Rectangle(84, 15, 36, 32), new Rectangle((boat.GetHeart(2) ? 0 : 36), 0, 36, 32), Color.White);
+			spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2((width-25)-hugeFont.MeasureString(boat.Score+"").X, 12), Color.Black);
+
 			spriteBatch.End();
 
 			base.Draw(gameTime);

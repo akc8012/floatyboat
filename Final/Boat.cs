@@ -32,6 +32,8 @@ namespace Final
 		bool[] hearts = new bool[] { true, true, true };    // data for the on-screen hearts
 		public bool GetHeart(int i) { return hearts[i]; }
 		int heartsLeft = 3;
+		int score = 0;
+		public int Score { get { return score; } }
 
 		public Boat(Camera camera, Game1 game1)
 		{
@@ -45,6 +47,7 @@ namespace Final
 			pos = new Vector2(115, waterPoint - size.Y/2);
 			vel = new Vector2(0, 0);
 			heartsLeft = 3;
+			score = 0;
 			hearts = new bool[] { true, true, true };   // reset our hearts display
 		}
 
@@ -89,7 +92,6 @@ namespace Final
 				jumpCount = 0;
 
 			Move((int)pos.X, targetPoint-(size.Y/2), 0.9f, 0.025f);
-			
 			lastKeyboard = keyboard;
 		}
 
@@ -109,6 +111,8 @@ namespace Final
 			if (heartsLeft <= 0)
 				game1.Die();
 		}
+
+		public void AddScore(int change) { score += change; }
 
 		public void Draw(SpriteBatch spriteBatch)
 		{

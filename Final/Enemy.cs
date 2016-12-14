@@ -13,7 +13,10 @@ namespace Final
 		protected Boat boat;
 		protected Camera camera;
 		protected bool visible = true;
-		protected bool deleteThis = false;
+
+		bool addedScore = false;
+		bool deleteThis = false;
+		bool boatJumped = false;
 		public bool DeleteThis { get { return deleteThis; } }
 
 		public Enemy(Vector2 pos, Boat boat, Camera camera, Texture2D texture)
@@ -42,6 +45,19 @@ namespace Final
 			{
 				boat.LoseHeart();
 				visible = false;
+			}
+
+			if ((pos.Y > boat.GetRectangle.Y + boat.GetRectangle.Height) &&
+				(pos.X > boat.GetRectangle.X && pos.X + GetSize().X < boat.GetRectangle.X + boat.GetRectangle.Width))
+			{
+				boatJumped = true;
+			}
+
+			if (pos.X + GetSize().X < boat.GetRectangle.X && visible && !addedScore)
+			{
+				boat.AddScore(boatJumped ? 10 : 5);
+				Console.WriteLine(boatJumped);
+				addedScore = true;
 			}
 		}
 
