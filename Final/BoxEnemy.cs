@@ -9,8 +9,8 @@ namespace Final
 		Point size;
 		public Rectangle GetRectangle { get { return new Rectangle((int)pos.X, (int)pos.Y, size.X, size.Y); } }
 
-		public BoxEnemy(Vector2 pos, Boat boat, Camera camera) :
-			base (pos, boat, camera)
+		public BoxEnemy(Vector2 pos, Boat boat, Camera camera, Texture2D texture) :
+			base (pos, boat, camera, texture)
 		{
 			
 		}
@@ -19,6 +19,11 @@ namespace Final
 		{
 			this.texture = texture;
 			size = new Point(texture.Width, texture.Height);
+		}
+
+		protected override Vector2 GetSize()
+		{
+			return new Vector2(size.X, size.Y);
 		}
 
 		protected override bool CollisionWithBoat()

@@ -17,6 +17,13 @@ namespace Final
 		EnemyManager enemyManager;
 		Camera camera;
 
+		Texture2D heart;
+
+		enum State { Title, Game, End }
+		State state;
+
+		int frames = 0;
+
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
@@ -30,8 +37,9 @@ namespace Final
 			IsMouseVisible = true;
 
 			camera = new Camera();
-			boat = new Boat(camera);
+			boat = new Boat(camera, this);
 			enemyManager = new EnemyManager(boat, camera);
+			state = State.Title;
 
 			base.Initialize();
 		}
@@ -39,6 +47,8 @@ namespace Final
 		protected override void LoadContent()
 		{
 			spriteBatch = new SpriteBatch(GraphicsDevice);
+
+			heart = Content.Load<Texture2D>("heartTex");
 
 			boat.LoadContent(Content.Load<Texture2D>("boatTex"), Content.Load<Texture2D>("cannonTex"));
 			enemyManager.LoadContent(Content.Load<Texture2D>("cannonTex"), Content.Load<Texture2D>("sharkTex"));
@@ -49,20 +59,43 @@ namespace Final
 			// TODO: Unload any non ContentManager content here
 		}
 
+		void StartNewGame()
+		{
+			state = State.Game;
+			boat.Reset();
+			enemyManager.Reset();
+		}
+
+		public void Die()
+		{
+			state = State.End;
+		}
+
 		protected override void Update(GameTime gameTime)
 		{
+			frames++;
 			KeyboardState keyboard = Keyboard.GetState();
 
 			if (keyboard.IsKeyDown(Keys.Escape))
 				Exit();
 
-			if (keyboard.IsKeyDown(Keys.Down))
-				camera.SetOffset(new Vector2(0, -60), 0.075f, false);
-			else
-				camera.SetOffset(new Vector2(0, 0), 0.15f, true);
+			// start a new game depending on state and keypress
+			if (state == State.Title && keyboard.GetPressedKeys().Length > 0)
+				StartNewGame();
+			if (state == State.End && keyboard.IsKeyDown(Keys.R))
+				StartNewGame();
 
-			boat.Update();
-			enemyManager.Update();
+			if (state == State.Game)
+			{
+				if (keyboard.IsKeyDown(Keys.Down))
+					camera.SetOffset(new Vector2(0, -60), 0.075f, false);
+				else
+					camera.SetOffset(new Vector2(0, 0), 0.15f, true);
+
+				boat.Update();
+				enemyManager.Update(frames);
+			}
+
 			base.Update(gameTime);
 		}
 
@@ -73,6 +106,9 @@ namespace Final
 			spriteBatch.Begin();
 			boat.Draw(spriteBatch);
 			enemyManager.Draw(spriteBatch);
+			spriteBatch.Draw(heart, new Rectangle(10, 15, 36, 32), new Rectangle(boat.GetHeart(0) ? 0 : 36, 0, 36, 32), Color.White);
+			spriteBatch.Draw(heart, new Rectangle(47, 15, 36, 32), new Rectangle(boat.GetHeart(1) ? 0 : 36, 0, 36, 32), Color.White);
+			spriteBatch.Draw(heart, new Rectangle(84, 15, 36, 32), new Rectangle(boat.GetHeart(2) ? 0 : 36, 0, 36, 32), Color.White);
 			spriteBatch.End();
 
 			base.Draw(gameTime);

@@ -13,13 +13,16 @@ namespace Final
 		protected Boat boat;
 		protected Camera camera;
 		protected bool visible = true;
+		protected bool deleteThis = false;
+		public bool DeleteThis { get { return deleteThis; } }
 
-		public Enemy(Vector2 pos, Boat boat, Camera camera)
+		public Enemy(Vector2 pos, Boat boat, Camera camera, Texture2D texture)
 		{
 			this.pos = pos;
 			this.boat = boat;
 			this.camera = camera;
 			vel = new Vector2(-10, 0);
+			LoadContent(texture);
 		}
 
 		public abstract void LoadContent(Texture2D texture);
@@ -28,15 +31,21 @@ namespace Final
 		{
 			pos += vel;
 
-			if (pos.X < 0)
+			if (pos.X < -GetSize().X)
 			{
-				pos.X = Game1.width;
-				visible = true;
+				//pos.X = Game1.width;
+				//visible = true;
+				deleteThis = true;
 			}
 
 			if (CollisionWithBoat() && visible)
+			{
+				boat.LoseHeart();
 				visible = false;
+			}
 		}
+
+		protected abstract Vector2 GetSize();
 
 		protected abstract bool CollisionWithBoat();
 

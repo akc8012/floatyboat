@@ -9,8 +9,8 @@ namespace Final
 		int radius;
 		Vector2 Center { get { return new Vector2(pos.X + radius, pos.Y + radius); } }
 
-		public CircleEnemy(Vector2 pos, Boat boat, Camera camera) :
-			base (pos, boat, camera)
+		public CircleEnemy(Vector2 pos, Boat boat, Camera camera, Texture2D texture) :
+			base (pos, boat, camera, texture)
 		{
 
 		}
@@ -19,6 +19,11 @@ namespace Final
 		{
 			this.texture = texture;
 			radius = texture.Width/2;
+		}
+
+		protected override Vector2 GetSize()
+		{
+			return new Vector2(radius*2, radius*2);
 		}
 
 		protected override bool CollisionWithBoat()

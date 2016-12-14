@@ -7,8 +7,11 @@ namespace Final
 {
 	class Boat
 	{
+		Camera camera;
 		Texture2D texture;
 		Texture2D circleTex;
+		Game1 game1;
+
 		Vector2 pos;
 		Vector2 vel;
 		Point size;
@@ -18,26 +21,31 @@ namespace Final
 		const int duckDist = 70;
 		const int jumpOffset = 150;
 		const int jumpFrames = 28;
-
+		int jumpCount = 0;
 		int waterPoint;
+
 		public Vector2 Center { get { return new Vector2(pos.X + size.X/2, pos.Y + radius); } }
 		public Rectangle GetRectangle { get { return new Rectangle((int)pos.X, (int)pos.Y, size.X, size.Y); } }
 		KeyboardState keyboard;
 		KeyboardState lastKeyboard;
-		int jumpCount = 0;
-		Camera camera;
 
-		public Boat(Camera camera)
+		bool[] hearts = new bool[] { true, true, true };    // data for the on-screen hearts
+		public bool GetHeart(int i) { return hearts[i]; }
+		int heartsLeft = 3;
+
+		public Boat(Camera camera, Game1 game1)
 		{
-			Reset();
 			waterPoint = Game1.height - 80;
 			this.camera = camera;
+			this.game1 = game1;
 		}
 
-		void Reset()
+		public void Reset()
 		{
-			pos = new Vector2(115, Game1.height/2 - size.Y);
+			pos = new Vector2(115, waterPoint - size.Y/2);
 			vel = new Vector2(0, 0);
+			heartsLeft = 3;
+			hearts = new bool[] { true, true, true };   // reset our hearts display
 		}
 
 		public void LoadContent(Texture2D texture, Texture2D circle)
@@ -46,6 +54,8 @@ namespace Final
 			circleTex = circle;
 			size = new Point(texture.Width, texture.Height);
 			radius = size.Y/2;
+
+			Reset();
 		}
 
 		void Move(int centerX, int centerY, float inertia, float k)
@@ -79,9 +89,6 @@ namespace Final
 				jumpCount = 0;
 
 			Move((int)pos.X, targetPoint-(size.Y/2), 0.9f, 0.025f);
-
-			if (keyboard.IsKeyDown(Keys.R))
-				Reset();
 			
 			lastKeyboard = keyboard;
 		}
@@ -89,6 +96,18 @@ namespace Final
 		bool IsKeyPressed(Keys key)
 		{
 			return keyboard.IsKeyDown(key) && lastKeyboard.IsKeyUp(key);
+		}
+
+		public void LoseHeart()
+		{
+			if (heartsLeft > 0)
+			{
+				hearts[heartsLeft-1] = false;
+				heartsLeft--;
+			}
+
+			if (heartsLeft <= 0)
+				game1.Die();
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
