@@ -24,7 +24,7 @@ namespace Final
 			this.pos = pos;
 			this.boat = boat;
 			this.camera = camera;
-			vel = new Vector2(-10, 0);
+			vel = new Vector2(-12, 0);
 			LoadContent(texture);
 		}
 
@@ -44,7 +44,8 @@ namespace Final
 			if (CollisionWithBoat() && visible)
 			{
 				boat.LoseHeart();
-				visible = false;
+				deleteThis = true;
+				//visible = false;
 			}
 
 			if ((pos.Y > boat.GetRectangle.Y + boat.GetRectangle.Height) &&
@@ -55,8 +56,7 @@ namespace Final
 
 			if (pos.X + GetSize().X < boat.GetRectangle.X && visible && !addedScore)
 			{
-				boat.AddScore(boatJumped ? 10 : 5);
-				Console.WriteLine(boatJumped);
+				boat.AddScore(boatJumped ? 10 : 1);
 				addedScore = true;
 			}
 		}

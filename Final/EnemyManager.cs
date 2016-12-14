@@ -32,24 +32,26 @@ namespace Final
 
 		void AddEnemy(EType eType)
 		{
-			Enemy newEnemy = null;
 			switch (eType)
 			{
 				case EType.Cannon:
-					newEnemy = new CircleEnemy(new Vector2(Game1.width, 345), boat, camera, cannonTex); break;
+					enemies.Add(new CircleEnemy(new Vector2(Game1.width, 315), boat, camera, cannonTex));
+					if (Game1.rand.Next(0, 2) == 0)
+						enemies.Add(new CircleEnemy(new Vector2(Game1.width, 200), boat, camera, cannonTex));
+					break;
 
 				case EType.Shark:
-					newEnemy = new BoxEnemy(new Vector2(Game1.width, 400), boat, camera, sharkTex); break;
+					enemies.Add(new BoxEnemy(new Vector2(Game1.width, 360), boat, camera, sharkTex));
+					break;
 			}
-			enemies.Add(newEnemy);
 		}
 
 		public void Update(int frames)
 		{
 			if (frames % 50 == 0)
-				AddEnemy(EType.Cannon);
+				AddEnemy((EType)Game1.rand.Next(0, 2));
 
-			for (int i = 0; i < enemies.Count; i++)
+			for (int i = enemies.Count-1; i >= 0; i--)
 			{
 				enemies[i].Update();
 

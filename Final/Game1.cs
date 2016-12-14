@@ -9,6 +9,7 @@ namespace Final
 	{
 		public static int width;
 		public static int height;
+		public static Random rand = new Random();
 
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
@@ -82,7 +83,8 @@ namespace Final
 				Exit();
 
 			// start a new game depending on state and keypress
-			if (state == State.Title && keyboard.GetPressedKeys().Length > 0)
+			if (state == State.Title && keyboard.GetPressedKeys().Length > 0 || 
+				Mouse.GetState().LeftButton == ButtonState.Pressed)
 				StartNewGame();
 			if (state == State.End && keyboard.IsKeyDown(Keys.R))
 				StartNewGame();
