@@ -10,6 +10,7 @@ namespace Final
 		public static int width;
 		public static int height;
 		public static Random rand = new Random();
+		public static int frames = 0;
 
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
@@ -25,8 +26,6 @@ namespace Final
 
 		enum State { Title, Game, End }
 		State state;
-
-		int frames = 0;
 
 		public Game1()
 		{
@@ -72,6 +71,7 @@ namespace Final
 			state = State.Game;
 			boat.Reset();
 			enemyManager.Reset();
+			camera.Reset();
 		}
 
 		public void Die()
@@ -104,7 +104,7 @@ namespace Final
 				boat.Update();
 				enemyManager.Update(frames);
 			}
-			camera.Update();
+			camera.Update(frames);
 			water.Update(frames);
 
 			base.Update(gameTime);
@@ -129,6 +129,7 @@ namespace Final
 			spriteBatch.Draw(heart, new Rectangle(10, 15, 36, 32), new Rectangle((boat.GetHeart(0) ? 0 : 36), 0, 36, 32), Color.White);
 			spriteBatch.Draw(heart, new Rectangle(47, 15, 36, 32), new Rectangle((boat.GetHeart(1) ? 0 : 36), 0, 36, 32), Color.White);
 			spriteBatch.Draw(heart, new Rectangle(84, 15, 36, 32), new Rectangle((boat.GetHeart(2) ? 0 : 36), 0, 36, 32), Color.White);
+			spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2((width-25)-hugeFont.MeasureString(boat.Score+"").X+2, 14), new Color(0.1f, 0.1f, 0.1f, 0.8f));
 			spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2((width-25)-hugeFont.MeasureString(boat.Score+"").X, 12), Color.Black);
 
 			spriteBatch.End();

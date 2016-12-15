@@ -47,6 +47,7 @@ namespace Final
 			pos = new Vector2(115, Water.waterPoint - size.Y/2);
 			vel = new Vector2(0, 0);
 			heartsLeft = 3;
+			iFrames = -1;
 			score = 0;
 			hearts = new bool[] { true, true, true };   // reset our hearts display
 		}
@@ -111,6 +112,7 @@ namespace Final
 				hearts[heartsLeft-1] = false;
 				heartsLeft--;
 				iFrames = 60;
+				camera.DoScreenShake(Game1.frames);
 			}
 
 			if (heartsLeft <= 0)
@@ -122,7 +124,7 @@ namespace Final
 		public void Draw(SpriteBatch spriteBatch)
 		{
 			Color drawCol = iFrames >= 0 ? new Color(0.45f, 0.45f, 0.45f, 0.45f) : Color.White;
-			spriteBatch.Draw(texture, new Rectangle((int)pos.X, (int)pos.Y + camera.getOffsetY(), size.X, size.Y), drawCol);
+			spriteBatch.Draw(texture, new Rectangle((int)pos.X + camera.getOffsetX(), (int)pos.Y + camera.getOffsetY(), size.X, size.Y), drawCol);
 		}
 	}
 }

@@ -33,7 +33,7 @@ namespace Final
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
-			if (visible) spriteBatch.Draw(texture, new Rectangle((int)pos.X, (int)pos.Y + camera.getOffsetY(), radius*2, radius*2), Color.White);
+			if (visible) spriteBatch.Draw(texture, new Rectangle((int)pos.X + camera.getOffsetX(), (int)pos.Y + camera.getOffsetY(), radius*2, radius*2), Color.White);
 		}
 	}
 }

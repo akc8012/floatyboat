@@ -29,9 +29,9 @@ namespace Final
 				pos.Y = center.Y +			(radius * (float)Math.Sin(2 * Math.PI * t));
 			}
 
-			public void Draw(SpriteBatch spriteBatch, int yOffset, Color layerColor)
+			public void Draw(SpriteBatch spriteBatch, Vector2 offset, Color layerColor)
 			{
-				spriteBatch.Draw(texture, new Rectangle((int)pos.X, (int)pos.Y + yOffset, texture.Bounds.Width, texture.Bounds.Height), layerColor);
+				spriteBatch.Draw(texture, new Rectangle((int)(pos.X + offset.X), (int)(pos.Y + offset.Y), texture.Bounds.Width, texture.Bounds.Height), layerColor);
 			}
 		}
 		Layer[] layers;
@@ -71,7 +71,7 @@ namespace Final
 		public void Draw(SpriteBatch spriteBatch, int i)
 		{
 			Color layerColor = GetLayerColor(i);
-			layers[i].Draw(spriteBatch, camera.getOffsetY(), layerColor);
+			layers[i].Draw(spriteBatch, camera.getOffset(), layerColor);
 		}
 
 	}
