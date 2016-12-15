@@ -119,9 +119,6 @@ namespace Final
 
 			// collision circle
 			//spriteBatch.Draw(circleTex, new Rectangle((int)Center.X - (size.Y/2), (int)pos.Y + camera.getOffsetY(), radius*2, radius*2), Color.Blue);
-
-			// water line
-			spriteBatch.Draw(texture, new Rectangle(0, Water.waterPoint + camera.getOffsetY(), Game1.width, 2), Color.Blue);
 		}
 	}
 }

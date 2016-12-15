@@ -101,7 +101,7 @@ namespace Final
 
 				boat.Update();
 				enemyManager.Update(frames);
-				water.Update();
+				water.Update(frames);
 			}
 
 			base.Update(gameTime);
