@@ -41,7 +41,7 @@ namespace Final
 					break;
 
 				case EType.Shark:
-					enemies.Add(new BoxEnemy(new Vector2(Game1.width, 360), boat, camera, sharkTex));
+					enemies.Add(new BoxEnemy(new Vector2(Game1.width, 350), boat, camera, sharkTex));
 					break;
 			}
 		}

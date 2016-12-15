@@ -101,6 +101,7 @@ namespace Final
 
 				boat.Update();
 				enemyManager.Update(frames);
+				water.Update();
 			}
 
 			base.Update(gameTime);
@@ -116,8 +117,8 @@ namespace Final
 			water.Draw(spriteBatch, 2);
 			water.Draw(spriteBatch, 1);
 			boat.Draw(spriteBatch);
-			water.Draw(spriteBatch, 0);
 			enemyManager.Draw(spriteBatch);
+			water.Draw(spriteBatch, 0);
 
 			// HUD
 			spriteBatch.Draw(heart, new Rectangle(10, 15, 36, 32), new Rectangle((boat.GetHeart(0) ? 0 : 36), 0, 36, 32), Color.White);

@@ -7,7 +7,7 @@ namespace Final
 	class BoxEnemy : Enemy
 	{
 		Point size;
-		public Rectangle GetRectangle { get { return new Rectangle((int)pos.X, (int)pos.Y, size.X, size.Y); } }
+		Rectangle GetRectangle { get { return new Rectangle((int)pos.X, (int)pos.Y, size.X, size.Y); } }
 
 		public BoxEnemy(Vector2 pos, Boat boat, Camera camera, Texture2D texture) :
 			base (pos, boat, camera, texture)
@@ -23,16 +23,21 @@ namespace Final
 
 		protected override Vector2 GetSize()
 		{
-			return new Vector2(size.X*2, size.Y);
+			return new Vector2(GetCollisionRect().Width, GetCollisionRect().Height);
+		}
+
+		public Rectangle GetCollisionRect()
+		{
+			Rectangle colRect = GetRectangle;
+			colRect.Width /= 2;
+			colRect.X += size.X / 2;
+			colRect.Y += 5;
+			return colRect;
 		}
 
 		protected override bool CollisionWithBoat()
 		{
-			Rectangle colRect = GetRectangle;
-			colRect.Width /= 2;
-			colRect.X += size.X/2;
-			colRect.Y += 5;
-			return colRect.Intersects(boat.GetRectangle);
+			return GetCollisionRect().Intersects(boat.GetRectangle);
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)

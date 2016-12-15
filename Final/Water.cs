@@ -10,7 +10,17 @@ namespace Final
 		public static int waterPoint = Game1.height-80;
 
 		Camera camera;
-		Texture2D[] layers;
+		class Layer
+		{
+			public Texture2D texture;
+			public Vector2 pos;
+
+			public void Draw(SpriteBatch spriteBatch, int yOffset, Color layerColor)
+			{
+				spriteBatch.Draw(texture, new Rectangle((int)pos.X, (int)pos.Y + yOffset, texture.Bounds.Width, texture.Bounds.Height), layerColor);
+			}
+		}
+		Layer[] layers;
 
 		public Water(Camera camera)
 		{
@@ -19,10 +29,13 @@ namespace Final
 
 		public void LoadContent(Texture2D layer0, Texture2D layer1, Texture2D layer2)
 		{
-			layers = new Texture2D[3];
-			layers[0] = layer0;
-			layers[1] = layer1;
-			layers[2] = layer2;
+			layers = new Layer[3] { new Layer(), new Layer(), new Layer() };
+			layers[0].texture = layer0;
+			layers[0].pos = new Vector2(-115, waterPoint);
+			layers[1].texture = layer1;
+			layers[1].pos = new Vector2(-115, waterPoint-25);
+			layers[2].texture = layer2;
+			layers[2].pos = new Vector2(-115, waterPoint-50);
 		}
 
 		public void Update()
@@ -30,12 +43,21 @@ namespace Final
 			
 		}
 
+		Color GetLayerColor(int i)
+		{
+			if (i == 0)
+			{
+				float camY = camera.getOffsetY();
+				float alpha = 1 - Math.Abs(camY / 60);
+				return new Color(alpha, alpha, alpha, alpha);
+			}
+			else return Color.White;
+		}
+
 		public void Draw(SpriteBatch spriteBatch, int i)
 		{
-			int yOffset = 0;
-			switch (i) { case 0: yOffset = 0; break; case 1: yOffset = 25; break; case 2: yOffset = 50; break; }
-
-			spriteBatch.Draw(layers[i], new Rectangle(0, waterPoint + camera.getOffsetY() - yOffset, layers[i].Bounds.Width, layers[i].Bounds.Height), Color.White);
+			Color layerColor = GetLayerColor(i);
+			layers[i].Draw(spriteBatch, camera.getOffsetY(), layerColor);
 		}
 
 	}

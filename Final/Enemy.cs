@@ -34,7 +34,7 @@ namespace Final
 		{
 			pos += vel;
 
-			if (pos.X < -GetSize().X)
+			if (pos.X < -GetSize().X*2)
 			{
 				//pos.X = Game1.width;
 				//visible = true;
@@ -52,6 +52,7 @@ namespace Final
 				(pos.X > boat.GetRectangle.X && pos.X + GetSize().X < boat.GetRectangle.X + boat.GetRectangle.Width))
 			{
 				boatJumped = true;
+				//Console.WriteLine(pos.X);
 			}
 
 			if (pos.X + GetSize().X < boat.GetRectangle.X && visible && !addedScore)
