@@ -7,11 +7,37 @@ namespace Final
 {
 	class Camera
 	{
-		Vector2 offset;
+		public static int startY = 440;
 
-		public Camera()
+		Game1 game1;
+		Vector2 offset;
+		bool doScrollDown = false;
+		float t = 0.0f;
+		public bool DoScrollDown { set { doScrollDown = value; } }
+
+		public Camera(Game1 game1)
 		{
-			offset = new Vector2(0, 0);
+			this.game1 = game1;
+			offset = new Vector2(0, startY);
+		}
+
+		void ScrollDown(float t)
+		{
+			offset.Y += (0 - offset.Y) * (t * t);
+
+			if (t >= 1)
+			{
+				this.t = 0.0f;
+				offset.Y = 0;
+				doScrollDown = false;
+				game1.StartNewGame();
+			}
+		}
+
+		public void Update()
+		{
+			if (doScrollDown)
+				ScrollDown(t += 0.01f);
 		}
 
 		public void SetOffset(Vector2 target, float speed, bool snap)

@@ -21,6 +21,7 @@ namespace Final
 
 		SpriteFont hugeFont;
 		Texture2D heart;
+		Texture2D background;
 
 		enum State { Title, Game, End }
 		State state;
@@ -39,7 +40,7 @@ namespace Final
 			height = graphics.PreferredBackBufferHeight;
 			IsMouseVisible = true;
 
-			camera = new Camera();
+			camera = new Camera(this);
 			boat = new Boat(camera, this);
 			enemyManager = new EnemyManager(boat, camera);
 			water = new Water(camera);
@@ -53,6 +54,7 @@ namespace Final
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			heart = Content.Load<Texture2D>("heartTex");
+			background = Content.Load<Texture2D>("backgroundTex");
 			hugeFont = Content.Load<SpriteFont>("hugeFont");
 
 			boat.LoadContent(Content.Load<Texture2D>("boatTex"), Content.Load<Texture2D>("cannonTex"));
@@ -65,7 +67,7 @@ namespace Final
 			// TODO: Unload any non ContentManager content here
 		}
 
-		void StartNewGame()
+		public void StartNewGame()
 		{
 			state = State.Game;
 			boat.Reset();
@@ -86,9 +88,9 @@ namespace Final
 				Exit();
 
 			// start a new game depending on state and keypress
-			if (state == State.Title && keyboard.GetPressedKeys().Length > 0 || 
+			if (state == State.Title && keyboard.GetPressedKeys().Length > 0 ||
 				Mouse.GetState().LeftButton == ButtonState.Pressed)
-				StartNewGame();
+				camera.DoScrollDown = true;		//StartNewGame();
 			if (state == State.End && keyboard.IsKeyDown(Keys.R))
 				StartNewGame();
 
@@ -101,8 +103,9 @@ namespace Final
 
 				boat.Update();
 				enemyManager.Update(frames);
-				water.Update(frames);
 			}
+			camera.Update();
+			water.Update(frames);
 
 			base.Update(gameTime);
 		}
@@ -112,6 +115,8 @@ namespace Final
 			GraphicsDevice.Clear(Color.SkyBlue);
 
 			spriteBatch.Begin();
+			// background
+			spriteBatch.Draw(background, new Rectangle(0, camera.getOffsetY() - Camera.startY, background.Bounds.Width, background.Bounds.Height), Color.White);
 
 			// game
 			water.Draw(spriteBatch, 2);
