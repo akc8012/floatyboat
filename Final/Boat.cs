@@ -22,7 +22,6 @@ namespace Final
 		const int jumpOffset = 150;
 		const int jumpFrames = 28;
 		int jumpCount = 0;
-		int waterPoint;
 
 		public Vector2 Center { get { return new Vector2(pos.X + size.X/2, pos.Y + radius); } }
 		public Rectangle GetRectangle { get { return new Rectangle((int)pos.X, (int)pos.Y, size.X, size.Y); } }
@@ -37,14 +36,13 @@ namespace Final
 
 		public Boat(Camera camera, Game1 game1)
 		{
-			waterPoint = Game1.height - 80;
 			this.camera = camera;
 			this.game1 = game1;
 		}
 
 		public void Reset()
 		{
-			pos = new Vector2(115, waterPoint - size.Y/2);
+			pos = new Vector2(115, Water.waterPoint - size.Y/2);
 			vel = new Vector2(0, 0);
 			heartsLeft = 3;
 			score = 0;
@@ -75,12 +73,12 @@ namespace Final
 		public void Update()
 		{
 			keyboard = Keyboard.GetState();
-			int targetPoint = waterPoint;
+			int targetPoint = Water.waterPoint;
 
 			if (keyboard.IsKeyDown(Keys.Down))
 				targetPoint += duckDist;
 
-			bool canJump = pos.Y+size.Y > waterPoint;
+			bool canJump = pos.Y+size.Y > Water.waterPoint;
 			bool isJumping = (IsKeyPressed(Keys.Up) && jumpCount == 0 && canJump) || (jumpCount <= jumpFrames && jumpCount != 0);
 
 			if (isJumping)
@@ -123,7 +121,7 @@ namespace Final
 			//spriteBatch.Draw(circleTex, new Rectangle((int)Center.X - (size.Y/2), (int)pos.Y + camera.getOffsetY(), radius*2, radius*2), Color.Blue);
 
 			// water line
-			spriteBatch.Draw(texture, new Rectangle(0, waterPoint + camera.getOffsetY(), Game1.width, 2), Color.Blue);
+			spriteBatch.Draw(texture, new Rectangle(0, Water.waterPoint + camera.getOffsetY(), Game1.width, 2), Color.Blue);
 		}
 	}
 }

@@ -23,12 +23,16 @@ namespace Final
 
 		protected override Vector2 GetSize()
 		{
-			return new Vector2(size.X, size.Y);
+			return new Vector2(size.X*2, size.Y);
 		}
 
 		protected override bool CollisionWithBoat()
 		{
-			return GetRectangle.Intersects(boat.GetRectangle);
+			Rectangle colRect = GetRectangle;
+			colRect.Width /= 2;
+			colRect.X += size.X/2;
+			colRect.Y += 5;
+			return colRect.Intersects(boat.GetRectangle);
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)

@@ -17,6 +17,7 @@ namespace Final
 		Boat boat;
 		EnemyManager enemyManager;
 		Camera camera;
+		Water water;
 
 		SpriteFont hugeFont;
 		Texture2D heart;
@@ -41,6 +42,7 @@ namespace Final
 			camera = new Camera();
 			boat = new Boat(camera, this);
 			enemyManager = new EnemyManager(boat, camera);
+			water = new Water(camera);
 			state = State.Title;
 
 			base.Initialize();
@@ -55,6 +57,7 @@ namespace Final
 
 			boat.LoadContent(Content.Load<Texture2D>("boatTex"), Content.Load<Texture2D>("cannonTex"));
 			enemyManager.LoadContent(Content.Load<Texture2D>("cannonTex"), Content.Load<Texture2D>("sharkTex"));
+			water.LoadContent(Content.Load<Texture2D>("waterLayer0"), Content.Load<Texture2D>("waterLayer1"), Content.Load<Texture2D>("waterLayer2"));
 		}
 
 		protected override void UnloadContent()
@@ -110,7 +113,10 @@ namespace Final
 			spriteBatch.Begin();
 
 			// game
+			water.Draw(spriteBatch, 2);
+			water.Draw(spriteBatch, 1);
 			boat.Draw(spriteBatch);
+			water.Draw(spriteBatch, 0);
 			enemyManager.Draw(spriteBatch);
 
 			// HUD
