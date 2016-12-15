@@ -41,7 +41,7 @@ namespace Final
 				deleteThis = true;
 			}
 
-			if (CollisionWithBoat() && visible)
+			if (!boat.IsInvincible && CollisionWithBoat() && visible)
 			{
 				boat.LoseHeart();
 				deleteThis = true;

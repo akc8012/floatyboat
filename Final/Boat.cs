@@ -31,6 +31,8 @@ namespace Final
 		bool[] hearts = new bool[] { true, true, true };    // data for the on-screen hearts
 		public bool GetHeart(int i) { return hearts[i]; }
 		int heartsLeft = 3;
+		int iFrames = -1;
+		public bool IsInvincible { get { return iFrames >= 0; } }
 		int score = 0;
 		public int Score { get { return score; } }
 
@@ -90,6 +92,10 @@ namespace Final
 				jumpCount = 0;
 
 			Move((int)pos.X, targetPoint-(size.Y/2), 0.9f, 0.025f);
+
+			if (iFrames >= 0)
+				iFrames--;
+
 			lastKeyboard = keyboard;
 		}
 
@@ -104,6 +110,7 @@ namespace Final
 			{
 				hearts[heartsLeft-1] = false;
 				heartsLeft--;
+				iFrames = 60;
 			}
 
 			if (heartsLeft <= 0)
@@ -114,11 +121,8 @@ namespace Final
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			// boat
-			spriteBatch.Draw(texture, new Rectangle((int)pos.X, (int)pos.Y + camera.getOffsetY(), size.X, size.Y), Color.White);
-
-			// collision circle
-			//spriteBatch.Draw(circleTex, new Rectangle((int)Center.X - (size.Y/2), (int)pos.Y + camera.getOffsetY(), radius*2, radius*2), Color.Blue);
+			Color drawCol = iFrames >= 0 ? new Color(0.45f, 0.45f, 0.45f, 0.45f) : Color.White;
+			spriteBatch.Draw(texture, new Rectangle((int)pos.X, (int)pos.Y + camera.getOffsetY(), size.X, size.Y), drawCol);
 		}
 	}
 }
