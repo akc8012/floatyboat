@@ -164,6 +164,7 @@ namespace Final
 			boat.Draw(spriteBatch);
 			enemyManager.Draw(spriteBatch);
 			water.Draw(spriteBatch, 0);
+			boat.DrawText(spriteBatch);
 
 			if (state == State.Title)
 			{

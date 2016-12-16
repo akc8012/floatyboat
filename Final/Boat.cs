@@ -36,6 +36,9 @@ namespace Final
 		public bool IsInvincible { get { return iFrames >= 0; } }
 		int score = 0;
 		public int Score { get { return score; } }
+		const int textFrames = 30;
+		int jumpTextFrames = -1;
+		int dodgeTextFrames = -1;
 
 		public Boat(Camera camera, Game1 game1)
 		{
@@ -102,8 +105,9 @@ namespace Final
 
 			Move((int)pos.X, targetPoint-(size.Y/2), 0.9f, 0.025f);
 
-			if (iFrames >= 0)
-				iFrames--;
+			if (iFrames >= 0) iFrames--;
+			if (jumpTextFrames >= 0) jumpTextFrames--;
+			if (dodgeTextFrames >= 0) dodgeTextFrames--;
 
 			lastKeyboard = keyboard;
 		}
@@ -131,12 +135,32 @@ namespace Final
 			}
 		}
 
-		public void AddScore(int change) { score += change; }
+		public void AddScore(int change, bool isJump)
+		{
+			score += change;
+			if (isJump) jumpTextFrames = textFrames;
+			else dodgeTextFrames = textFrames;
+		}
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			Color drawCol = iFrames >= 0 ? new Color(0.45f, 0.45f, 0.45f, 0.45f) : Color.White;
-			spriteBatch.Draw(texture, new Rectangle((int)pos.X + camera.getOffsetX(), (int)pos.Y + camera.getOffsetY(), size.X, size.Y), drawCol);
+			Color drawColor = iFrames >= 0 ? new Color(0.45f, 0.45f, 0.45f, 0.45f) : Color.White;
+			spriteBatch.Draw(texture, new Rectangle((int)pos.X + camera.getOffsetX(), (int)pos.Y + camera.getOffsetY(), size.X, size.Y), drawColor);
+		}
+
+		public void DrawText(SpriteBatch spriteBatch)
+		{
+			if (jumpTextFrames == -1 && dodgeTextFrames == -1) return;
+			int jumpYstart = Water.waterPoint - jumpOffset - 80;
+			int dodgeYstart = Water.waterPoint - duckDist - 10;
+			int jumpOff = 90-(jumpTextFrames*jumpTextFrames / 10);
+			int dodgeOff = 90-(dodgeTextFrames*dodgeTextFrames / 10);
+
+			if (jumpTextFrames >= 0)
+				spriteBatch.Draw(greatJump, new Rectangle((int)pos.X-40, jumpYstart-jumpOff, greatJump.Bounds.Width, greatJump.Bounds.Height), Color.White);
+
+			if (dodgeTextFrames >= 0)
+				spriteBatch.Draw(niceDodge, new Rectangle((int)pos.X-40, dodgeYstart-dodgeOff, niceDodge.Bounds.Width, niceDodge.Bounds.Height), Color.White);
 		}
 	}
 }
