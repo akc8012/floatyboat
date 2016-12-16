@@ -46,6 +46,7 @@ namespace Final
 		{
 			pos = new Vector2(115, Water.waterPoint - size.Y/2);
 			vel = new Vector2(0, 0);
+			jumpCount = 0;
 			heartsLeft = 3;
 			iFrames = -1;
 			score = 0;
@@ -78,6 +79,7 @@ namespace Final
 			keyboard = Keyboard.GetState();
 			int targetPoint = Water.waterPoint;
 
+			if (IsKeyPressed(Keys.Down)) SoundMan.Instance.PlaySound(SoundMan.Instance.bubbles);
 			if (keyboard.IsKeyDown(Keys.Down))
 				targetPoint += duckDist;
 
@@ -86,11 +88,15 @@ namespace Final
 
 			if (isJumping)
 			{
+				if (jumpCount == 0) SoundMan.Instance.PlaySound(SoundMan.Instance.jump);
 				targetPoint -= jumpOffset;
 				jumpCount++;
 			}
-			else
+			else if (jumpCount != 0)
+			{
+				SoundMan.Instance.PlaySound(SoundMan.Instance.land);
 				jumpCount = 0;
+			}
 
 			Move((int)pos.X, targetPoint-(size.Y/2), 0.9f, 0.025f);
 
@@ -107,6 +113,7 @@ namespace Final
 
 		public void LoseHeart()
 		{
+			SoundMan.Instance.PlaySound(SoundMan.Instance.getHit);
 			if (heartsLeft > 0)
 			{
 				hearts[heartsLeft-1] = false;

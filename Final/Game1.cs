@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Final
 {
@@ -59,6 +60,7 @@ namespace Final
 			boat.LoadContent(Content.Load<Texture2D>("boatTex"), Content.Load<Texture2D>("cannonTex"));
 			enemyManager.LoadContent(Content.Load<Texture2D>("cannonTex"), Content.Load<Texture2D>("sharkTex"));
 			water.LoadContent(Content.Load<Texture2D>("waterLayer0"), Content.Load<Texture2D>("waterLayer1"), Content.Load<Texture2D>("waterLayer2"));
+			SoundMan.Instance.LoadContent(Content);
 		}
 
 		protected override void UnloadContent()
@@ -87,9 +89,12 @@ namespace Final
 			if (keyboard.IsKeyDown(Keys.Escape))
 				Exit();
 
+			if (keyboard.IsKeyDown(Keys.M))
+				SoundMan.Instance.Mute = true;
+
 			// start a new game depending on state and keypress
-			if (state == State.Title && keyboard.GetPressedKeys().Length > 0 ||
-				Mouse.GetState().LeftButton == ButtonState.Pressed)
+			if (state == State.Title && (keyboard.GetPressedKeys().Length > 0 ||
+				Mouse.GetState().LeftButton == ButtonState.Pressed))
 				camera.DoScrollDown = true;		//StartNewGame();
 			if (state == State.End && keyboard.IsKeyDown(Keys.R))
 				StartNewGame();
@@ -116,7 +121,7 @@ namespace Final
 
 			spriteBatch.Begin();
 			// background
-			spriteBatch.Draw(background, new Rectangle(0, camera.getOffsetY() - Camera.startY, background.Bounds.Width, background.Bounds.Height), Color.White);
+			spriteBatch.Draw(background, new Rectangle(camera.getOffsetX(), camera.getOffsetY() - Camera.startY, background.Bounds.Width, background.Bounds.Height), Color.White);
 
 			// game
 			water.Draw(spriteBatch, 2);
@@ -125,13 +130,15 @@ namespace Final
 			enemyManager.Draw(spriteBatch);
 			water.Draw(spriteBatch, 0);
 
-			// HUD
-			spriteBatch.Draw(heart, new Rectangle(10, 15, 36, 32), new Rectangle((boat.GetHeart(0) ? 0 : 36), 0, 36, 32), Color.White);
-			spriteBatch.Draw(heart, new Rectangle(47, 15, 36, 32), new Rectangle((boat.GetHeart(1) ? 0 : 36), 0, 36, 32), Color.White);
-			spriteBatch.Draw(heart, new Rectangle(84, 15, 36, 32), new Rectangle((boat.GetHeart(2) ? 0 : 36), 0, 36, 32), Color.White);
-			spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2((width-25)-hugeFont.MeasureString(boat.Score+"").X+2, 14), new Color(0.1f, 0.1f, 0.1f, 0.8f));
-			spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2((width-25)-hugeFont.MeasureString(boat.Score+"").X, 12), Color.Black);
-
+			if (state != State.Title)
+			{
+				// HUD
+				spriteBatch.Draw(heart, new Rectangle(10, 15, 36, 32), new Rectangle((boat.GetHeart(0) ? 0 : 36), 0, 36, 32), Color.White);
+				spriteBatch.Draw(heart, new Rectangle(47, 15, 36, 32), new Rectangle((boat.GetHeart(1) ? 0 : 36), 0, 36, 32), Color.White);
+				spriteBatch.Draw(heart, new Rectangle(84, 15, 36, 32), new Rectangle((boat.GetHeart(2) ? 0 : 36), 0, 36, 32), Color.White);
+				spriteBatch.DrawString(hugeFont, boat.Score + "", new Vector2((width - 25) - hugeFont.MeasureString(boat.Score + "").X + 2, 14), new Color(0.1f, 0.1f, 0.1f, 0.8f));
+				spriteBatch.DrawString(hugeFont, boat.Score + "", new Vector2((width - 25) - hugeFont.MeasureString(boat.Score + "").X, 12), Color.Black);
+			}
 			spriteBatch.End();
 
 			base.Draw(gameTime);

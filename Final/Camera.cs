@@ -52,9 +52,10 @@ namespace Final
 			{
 				ScreenShake();
 			}
-			else
+			else if (shakeFrame != -1)
 			{
 				shakeFrame = -1;
+				offset = offsetPreShake;
 				offsetPreShake = -Vector2.One;
 			}
 		}
@@ -81,8 +82,6 @@ namespace Final
 
 			do offset += new Vector2(Game1.rand.Next(-8, 8), Game1.rand.Next(-8, 8));
 			while (offset == -Vector2.One);
-
-			Console.WriteLine(-Vector2.One);
 		}
 
 		public int getOffsetX() { return (int)offset.X; }

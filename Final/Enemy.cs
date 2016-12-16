@@ -12,7 +12,6 @@ namespace Final
 		protected Vector2 vel;
 		protected Boat boat;
 		protected Camera camera;
-		protected bool visible = true;
 
 		bool addedScore = false;
 		bool deleteThis = false;
@@ -35,28 +34,23 @@ namespace Final
 			pos += vel;
 
 			if (pos.X < -GetSize().X*2)
-			{
-				//pos.X = Game1.width;
-				//visible = true;
 				deleteThis = true;
-			}
 
-			if (!boat.IsInvincible && CollisionWithBoat() && visible)
+			if (!boat.IsInvincible && CollisionWithBoat())
 			{
 				boat.LoseHeart();
 				deleteThis = true;
-				//visible = false;
 			}
 
 			if ((pos.Y > boat.GetRectangle.Y + boat.GetRectangle.Height) &&
 				(pos.X > boat.GetRectangle.X && pos.X + GetSize().X < boat.GetRectangle.X + boat.GetRectangle.Width))
 			{
 				boatJumped = true;
-				//Console.WriteLine(pos.X);
 			}
 
-			if (pos.X + GetSize().X < boat.GetRectangle.X && visible && !addedScore)
+			if (pos.X + GetSize().X < boat.GetRectangle.X && !addedScore)
 			{
+				SoundMan.Instance.PlaySound(boatJumped ? SoundMan.Instance.pointsJump : SoundMan.Instance.pointsSink);
 				boat.AddScore(boatJumped ? 10 : 1);
 				addedScore = true;
 			}

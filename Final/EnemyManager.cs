@@ -13,7 +13,7 @@ namespace Final
 		Texture2D sharkTex;
 
 		List<Enemy> enemies;
-		enum EType { Cannon, Shark }
+		enum EType { Cannon, TwoCannon, Shark }
 
 		public EnemyManager(Boat boat, Camera camera)
 		{
@@ -26,8 +26,6 @@ namespace Final
 		{
 			this.cannonTex = cannonTex;
 			this.sharkTex = sharkTex;
-
-			//AddEnemy(EType.Cannon);
 		}
 
 		void AddEnemy(EType eType)
@@ -36,12 +34,18 @@ namespace Final
 			{
 				case EType.Cannon:
 					enemies.Add(new CircleEnemy(new Vector2(Game1.width, 315), boat, camera, cannonTex));
-					if (Game1.rand.Next(0, 2) == 0)
-						enemies.Add(new CircleEnemy(new Vector2(Game1.width, 200), boat, camera, cannonTex));
+					SoundMan.Instance.PlaySound(SoundMan.Instance.cannonFire);
+					break;
+
+				case EType.TwoCannon:
+					enemies.Add(new CircleEnemy(new Vector2(Game1.width, 315), boat, camera, cannonTex));
+					enemies.Add(new CircleEnemy(new Vector2(Game1.width, 200), boat, camera, cannonTex));
+					SoundMan.Instance.PlaySound(SoundMan.Instance.twoCannonFire);
 					break;
 
 				case EType.Shark:
 					enemies.Add(new BoxEnemy(new Vector2(Game1.width, 350), boat, camera, sharkTex));
+					SoundMan.Instance.PlaySound(SoundMan.Instance.sharkRoar);
 					break;
 			}
 		}
@@ -49,7 +53,7 @@ namespace Final
 		public void Update(int frames)
 		{
 			if (frames % 50 == 0)
-				AddEnemy((EType)Game1.rand.Next(0, 2));
+				AddEnemy((EType)Game1.rand.Next(0, 3));
 
 			for (int i = enemies.Count-1; i >= 0; i--)
 			{
