@@ -9,8 +9,8 @@ namespace Final
 		Point size;
 		Rectangle GetRectangle { get { return new Rectangle((int)pos.X, (int)pos.Y, size.X, size.Y); } }
 
-		public BoxEnemy(Vector2 pos, Boat boat, Camera camera, Texture2D texture) :
-			base (pos, boat, camera, texture)
+		public BoxEnemy(Vector2 pos, Boat boat, Camera camera, Texture2D texture, bool givePoints = true) :
+			base (pos, boat, camera, texture, givePoints)
 		{
 			
 		}

@@ -16,13 +16,15 @@ namespace Final
 		bool addedScore = false;
 		bool deleteThis = false;
 		bool boatJumped = false;
+		bool givePoints;
 		public bool DeleteThis { get { return deleteThis; } }
 
-		public Enemy(Vector2 pos, Boat boat, Camera camera, Texture2D texture)
+		public Enemy(Vector2 pos, Boat boat, Camera camera, Texture2D texture, bool givePoints = true)
 		{
 			this.pos = pos;
 			this.boat = boat;
 			this.camera = camera;
+			addedScore = !givePoints;
 			vel = new Vector2(-12, 0);
 			LoadContent(texture);
 		}

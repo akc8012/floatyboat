@@ -39,7 +39,7 @@ namespace Final
 
 				case EType.TwoCannon:
 					enemies.Add(new CircleEnemy(new Vector2(Game1.width, 315), boat, camera, cannonTex));
-					enemies.Add(new CircleEnemy(new Vector2(Game1.width, 200), boat, camera, cannonTex));
+					enemies.Add(new CircleEnemy(new Vector2(Game1.width, 200), boat, camera, cannonTex, false));
 					SoundMan.Instance.PlaySound(SoundMan.Instance.twoCannonFire);
 					break;
 
@@ -52,7 +52,7 @@ namespace Final
 
 		public void Update(int frames)
 		{
-			int spawnFreq = 40 - (boat.Score / 50)*2;      // 40 - 25
+			int spawnFreq = 50 - (boat.Score / 50)*2;      // 40 - 25
 			if (spawnFreq < 25) spawnFreq = 25;
 			if (frames % spawnFreq == 0 && HundrethsPlace(frames) % 2 != 0)
 				AddEnemy((EType)Game1.rand.Next(0, 3));

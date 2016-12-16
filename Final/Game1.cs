@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,6 +13,7 @@ namespace Final
 		public static int height;
 		public static Random rand = new Random();
 		public static int frames = 0;
+		int highScore = 0;
 
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
@@ -48,7 +50,30 @@ namespace Final
 			water = new Water(camera);
 			state = State.Title;
 
+			LoadSaveFile();
 			base.Initialize();
+		}
+
+		// read in the persistent high score from save.txt on every start up
+		void LoadSaveFile()
+		{
+			using (StreamReader sr = new StreamReader("save.txt"))
+			{
+				string line;
+				// Read and display lines from the file until the end of 
+				// the file is reached.
+				while ((line = sr.ReadLine()) != null)
+				{
+					highScore = Convert.ToInt32(line);
+				}
+			}
+		}
+
+		// called whenever we get a new high score. write it to the text file
+		void WriteToSaveFile(int newScore)
+		{
+			string score = newScore + "";
+			File.WriteAllText("save.txt", score);
 		}
 
 		protected override void LoadContent()
@@ -61,7 +86,7 @@ namespace Final
 			gameOverScreen = Content.Load<Texture2D>("gameOver");
 			hugeFont = Content.Load<SpriteFont>("hugeFont");
 
-			boat.LoadContent(Content.Load<Texture2D>("boatTex"), Content.Load<Texture2D>("cannonTex"));
+			boat.LoadContent(Content.Load<Texture2D>("boatTex"), Content.Load<Texture2D>("greatJump"), Content.Load<Texture2D>("niceDodge"));
 			enemyManager.LoadContent(Content.Load<Texture2D>("cannonTex"), Content.Load<Texture2D>("sharkTex"));
 			water.LoadContent(Content.Load<Texture2D>("waterLayer0"), Content.Load<Texture2D>("waterLayer1"), Content.Load<Texture2D>("waterLayer2"));
 			SoundMan.Instance.LoadContent(Content);
@@ -83,6 +108,12 @@ namespace Final
 		public void Die()
 		{
 			state = State.End;
+
+			if (boat.Score > highScore)
+			{
+				highScore = boat.Score;
+				WriteToSaveFile(highScore);
+			}
 		}
 
 		protected override void Update(GameTime gameTime)
@@ -160,8 +191,8 @@ namespace Final
 				spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2(470+2, 168+2), new Color(0.1f, 0.1f, 0.1f, 0.8f));
 				spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2(470, 168), Color.Black);
 
-				spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2(470+2, 262+2), new Color(0.1f, 0.1f, 0.1f, 0.8f));
-				spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2(470, 262), Color.Black);
+				spriteBatch.DrawString(hugeFont, highScore+"", new Vector2(470+2, 262+2), new Color(0.1f, 0.1f, 0.1f, 0.8f));
+				spriteBatch.DrawString(hugeFont, highScore+"", new Vector2(470, 262), Color.Black);
 			}
 
 			spriteBatch.End();

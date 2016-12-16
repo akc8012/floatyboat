@@ -9,8 +9,8 @@ namespace Final
 		int radius;
 		Vector2 Center { get { return new Vector2(pos.X + radius, pos.Y + radius); } }
 
-		public CircleEnemy(Vector2 pos, Boat boat, Camera camera, Texture2D texture) :
-			base (pos, boat, camera, texture)
+		public CircleEnemy(Vector2 pos, Boat boat, Camera camera, Texture2D texture, bool givePoints = true) :
+			base (pos, boat, camera, texture, givePoints)
 		{
 
 		}

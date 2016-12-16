@@ -9,7 +9,8 @@ namespace Final
 	{
 		Camera camera;
 		Texture2D texture;
-		Texture2D circleTex;
+		Texture2D greatJump;
+		Texture2D niceDodge;
 		Game1 game1;
 
 		Vector2 pos;
@@ -53,10 +54,11 @@ namespace Final
 			hearts = new bool[] { true, true, true };   // reset our hearts display
 		}
 
-		public void LoadContent(Texture2D texture, Texture2D circle)
+		public void LoadContent(Texture2D texture, Texture2D greatJump, Texture2D niceDodge)
 		{
 			this.texture = texture;
-			circleTex = circle;
+			this.greatJump = greatJump;
+			this.niceDodge = niceDodge;
 			size = new Point(texture.Width, texture.Height);
 			radius = size.Y/2;
 
