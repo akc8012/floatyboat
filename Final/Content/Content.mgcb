@@ -169,3 +169,9 @@
 /processorParam:Quality=Best
 /build:pointsSink.wav
 
+#begin seagulls.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:seagulls.wav
+

@@ -33,6 +33,8 @@ namespace Final
 		public SoundEffect pointsSink;
 		public SoundEffect pointsJump;
 
+		SoundEffectInstance segulls;
+
 		public void LoadContent(ContentManager Content)
 		{
 			cannonFire = Content.Load<SoundEffect>("cannonFire");
@@ -44,9 +46,14 @@ namespace Final
 			bubbles = Content.Load<SoundEffect>("bubbles");
 			pointsSink = Content.Load<SoundEffect>("pointsSink");
 			pointsJump = Content.Load<SoundEffect>("pointsJump");
+
+			SoundEffect segullsEff = Content.Load<SoundEffect>("seagulls");
+			segulls = segullsEff.CreateInstance();
+			segulls.IsLooped = true;
+			segulls.Play();
 		}
 
-		public void PlaySound(SoundEffect sound, float volume = 1.0f, float pitch = 0.0f, float pan = 0.0f)
+		public void PlaySound(SoundEffect sound, float volume = 0.15f, float pitch = 0.0f, float pan = 0.0f)
 		{
 			if (!mute) sound.Play(volume, pitch, pan);
 		}
