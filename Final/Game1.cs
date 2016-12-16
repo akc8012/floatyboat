@@ -22,6 +22,7 @@ namespace Final
 		EnemyManager enemyManager;
 		Camera camera;
 		Water water;
+		KeyboardState lastKeyboard;
 
 		SpriteFont hugeFont;
 		Texture2D heart;
@@ -121,14 +122,22 @@ namespace Final
 			frames++;
 			KeyboardState keyboard = Keyboard.GetState();
 
-			if (keyboard.IsKeyDown(Keys.Escape))
-				Exit();
+			if (keyboard.IsKeyDown(Keys.Escape) && lastKeyboard.IsKeyUp(Keys.Escape))
+			{
+				if (state != State.Title)
+				{
+					StartNewGame();
+					state = State.Title;
+					camera.ResetToHighUp();
+				}
+				else Exit();
+			}
 
 			if (keyboard.IsKeyDown(Keys.M))
 				SoundMan.Instance.Mute = true;
 
 			// start a new game depending on state and keypress
-			if (state == State.Title && (keyboard.GetPressedKeys().Length > 0 ||
+			if (state == State.Title && !keyboard.IsKeyDown(Keys.Escape) && (keyboard.GetPressedKeys().Length > 0 ||
 				Mouse.GetState().LeftButton == ButtonState.Pressed))
 				camera.DoScrollDown = true;		//StartNewGame();
 			if (state == State.End && keyboard.IsKeyDown(Keys.R))
@@ -146,6 +155,7 @@ namespace Final
 			}
 			camera.Update(frames);
 			water.Update(frames);
+			lastKeyboard = keyboard;
 
 			base.Update(gameTime);
 		}

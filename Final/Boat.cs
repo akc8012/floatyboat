@@ -53,6 +53,8 @@ namespace Final
 			jumpCount = 0;
 			heartsLeft = 3;
 			iFrames = -1;
+			jumpTextFrames = -1;
+			dodgeTextFrames = -1;
 			score = 0;
 			hearts = new bool[] { true, true, true };   // reset our hearts display
 		}

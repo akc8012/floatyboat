@@ -30,6 +30,12 @@ namespace Final
 			shakeFrame = -1;
 		}
 
+		public void ResetToHighUp()
+		{
+			offset = new Vector2(0, startY);
+			shakeFrame = -1;
+		}
+
 		void ScrollDown(float t)
 		{
 			offset.Y += (0 - offset.Y) * (t * t);
