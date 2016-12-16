@@ -199,11 +199,11 @@ namespace Final
 			if (state == State.End)
 			{
 				spriteBatch.Draw(gameOverScreen, new Rectangle(0, 0, width, height), Color.White);
-				spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2(470+2, 168+2), new Color(0.1f, 0.1f, 0.1f, 0.8f));
-				spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2(470, 168), Color.Black);
+				spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2(470+3, 168+3), new Color(0.1f, 0.1f, 0.1f, 0.8f));
+				spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2(470, 168), new Color(255, 254, 129));
 
-				spriteBatch.DrawString(hugeFont, highScore+"", new Vector2(470+2, 262+2), new Color(0.1f, 0.1f, 0.1f, 0.8f));
-				spriteBatch.DrawString(hugeFont, highScore+"", new Vector2(470, 262), Color.Black);
+				spriteBatch.DrawString(hugeFont, highScore+"", new Vector2(470+3, 262+3), new Color(0.1f, 0.1f, 0.1f, 0.8f));
+				spriteBatch.DrawString(hugeFont, highScore+"", new Vector2(470, 262), new Color(255, 254, 129));
 			}
 
 			spriteBatch.End();
