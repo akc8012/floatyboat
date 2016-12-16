@@ -52,7 +52,9 @@ namespace Final
 
 		public void Update(int frames)
 		{
-			if (frames % 50 == 0)
+			int spawnFreq = 40 - (boat.Score / 50)*2;      // 40 - 25
+			if (spawnFreq < 25) spawnFreq = 25;
+			if (frames % spawnFreq == 0 && HundrethsPlace(frames) % 2 != 0)
 				AddEnemy((EType)Game1.rand.Next(0, 3));
 
 			for (int i = enemies.Count-1; i >= 0; i--)
@@ -62,6 +64,11 @@ namespace Final
 				if (enemies[i].DeleteThis)
 					enemies.RemoveAt(i);
 			}
+		}
+
+		int HundrethsPlace(int n)
+		{
+			return Math.Abs(n / 100 % 10);
 		}
 
 		public void Reset()

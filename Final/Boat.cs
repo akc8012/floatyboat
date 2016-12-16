@@ -113,7 +113,7 @@ namespace Final
 
 		public void LoseHeart()
 		{
-			SoundMan.Instance.PlaySound(SoundMan.Instance.getHit);
+			/*SoundMan.Instance.PlaySound(SoundMan.Instance.getHit);
 			if (heartsLeft > 0)
 			{
 				hearts[heartsLeft-1] = false;
@@ -126,7 +126,7 @@ namespace Final
 			{
 				game1.Die();
 				iFrames = -1;
-			}			
+			}*/
 		}
 
 		public void AddScore(int change) { score += change; }

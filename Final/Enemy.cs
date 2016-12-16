@@ -51,7 +51,7 @@ namespace Final
 			if (pos.X + GetSize().X < boat.GetRectangle.X && !addedScore)
 			{
 				SoundMan.Instance.PlaySound(boatJumped ? SoundMan.Instance.pointsJump : SoundMan.Instance.pointsSink);
-				boat.AddScore(boatJumped ? 10 : 1);
+				boat.AddScore(boatJumped ? 10 : 5);
 				addedScore = true;
 			}
 		}
