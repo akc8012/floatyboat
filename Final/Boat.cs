@@ -40,6 +40,10 @@ namespace Final
 		int jumpTextFrames = -1;
 		int dodgeTextFrames = -1;
 
+		bool hasDoneAJump = false;
+		bool hasDoneADodge = false;
+		public bool HasDoneTutThings { get { return hasDoneAJump && hasDoneADodge; } }
+
 		public Boat(Camera camera, Game1 game1)
 		{
 			this.camera = camera;
@@ -140,8 +144,16 @@ namespace Final
 		public void AddScore(int change, bool isJump)
 		{
 			score += change;
-			if (isJump) jumpTextFrames = textFrames;
-			else dodgeTextFrames = textFrames;
+			if (isJump)
+			{
+				jumpTextFrames = textFrames;
+				if (!hasDoneAJump) hasDoneAJump = true;
+			}
+			else
+			{
+				dodgeTextFrames = textFrames;
+				if (!hasDoneADodge) hasDoneADodge = true;
+			}
 		}
 
 		public void Draw(SpriteBatch spriteBatch)

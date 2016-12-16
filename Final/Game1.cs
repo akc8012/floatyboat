@@ -29,6 +29,7 @@ namespace Final
 		Texture2D background;
 		Texture2D titleScreen;
 		Texture2D gameOverScreen;
+		Texture2D infoThing;
 
 		enum State { Title, Game, End }
 		State state;
@@ -85,6 +86,7 @@ namespace Final
 			background = Content.Load<Texture2D>("backgroundTex");
 			titleScreen = Content.Load<Texture2D>("title");
 			gameOverScreen = Content.Load<Texture2D>("gameOver");
+			infoThing = Content.Load<Texture2D>("infoThings");
 			hugeFont = Content.Load<SpriteFont>("hugeFont");
 
 			boat.LoadContent(Content.Load<Texture2D>("boatTex"), Content.Load<Texture2D>("greatJump"), Content.Load<Texture2D>("niceDodge"));
@@ -175,6 +177,9 @@ namespace Final
 			enemyManager.Draw(spriteBatch);
 			water.Draw(spriteBatch, 0);
 			boat.DrawText(spriteBatch);
+
+			if (state == State.Game && !boat.HasDoneTutThings)
+				spriteBatch.Draw(infoThing, new Rectangle(525, 195, infoThing.Bounds.Width, infoThing.Bounds.Height), Color.White);
 
 			if (state == State.Title)
 			{
