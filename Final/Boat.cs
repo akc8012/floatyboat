@@ -123,7 +123,10 @@ namespace Final
 			}
 
 			if (heartsLeft <= 0)
+			{
 				game1.Die();
+				iFrames = -1;
+			}			
 		}
 
 		public void AddScore(int change) { score += change; }

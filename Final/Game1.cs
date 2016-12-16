@@ -24,6 +24,7 @@ namespace Final
 		SpriteFont hugeFont;
 		Texture2D heart;
 		Texture2D background;
+		Texture2D titleScreen;
 
 		enum State { Title, Game, End }
 		State state;
@@ -55,6 +56,7 @@ namespace Final
 
 			heart = Content.Load<Texture2D>("heartTex");
 			background = Content.Load<Texture2D>("backgroundTex");
+			titleScreen = Content.Load<Texture2D>("title");
 			hugeFont = Content.Load<SpriteFont>("hugeFont");
 
 			boat.LoadContent(Content.Load<Texture2D>("boatTex"), Content.Load<Texture2D>("cannonTex"));
@@ -130,7 +132,13 @@ namespace Final
 			enemyManager.Draw(spriteBatch);
 			water.Draw(spriteBatch, 0);
 
-			if (state != State.Title)
+			if (state == State.Title)
+			{
+				float alpha = 1-(float)(Math.Abs(camera.getOffsetY() - Camera.startY)) / Camera.startY;
+				Color screenCol = new Color(alpha, alpha, alpha, alpha);
+				spriteBatch.Draw(titleScreen, new Rectangle(0, 0, width, height), screenCol);
+			}
+			else
 			{
 				// HUD
 				spriteBatch.Draw(heart, new Rectangle(10, 15, 36, 32), new Rectangle((boat.GetHeart(0) ? 0 : 36), 0, 36, 32), Color.White);
