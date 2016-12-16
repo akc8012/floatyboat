@@ -25,6 +25,7 @@ namespace Final
 		Texture2D heart;
 		Texture2D background;
 		Texture2D titleScreen;
+		Texture2D gameOverScreen;
 
 		enum State { Title, Game, End }
 		State state;
@@ -57,6 +58,7 @@ namespace Final
 			heart = Content.Load<Texture2D>("heartTex");
 			background = Content.Load<Texture2D>("backgroundTex");
 			titleScreen = Content.Load<Texture2D>("title");
+			gameOverScreen = Content.Load<Texture2D>("gameOver");
 			hugeFont = Content.Load<SpriteFont>("hugeFont");
 
 			boat.LoadContent(Content.Load<Texture2D>("boatTex"), Content.Load<Texture2D>("cannonTex"));
@@ -134,7 +136,7 @@ namespace Final
 
 			if (state == State.Title)
 			{
-				float alpha = 1-(float)(Math.Abs(camera.getOffsetY() - Camera.startY)) / Camera.startY;
+				float alpha = 1 - (float)(Math.Abs(camera.getOffsetY() - Camera.startY)) / Camera.startY;
 				Color screenCol = new Color(alpha, alpha, alpha, alpha);
 				spriteBatch.Draw(titleScreen, new Rectangle(0, 0, width, height), screenCol);
 			}
@@ -144,9 +146,24 @@ namespace Final
 				spriteBatch.Draw(heart, new Rectangle(10, 15, 36, 32), new Rectangle((boat.GetHeart(0) ? 0 : 36), 0, 36, 32), Color.White);
 				spriteBatch.Draw(heart, new Rectangle(47, 15, 36, 32), new Rectangle((boat.GetHeart(1) ? 0 : 36), 0, 36, 32), Color.White);
 				spriteBatch.Draw(heart, new Rectangle(84, 15, 36, 32), new Rectangle((boat.GetHeart(2) ? 0 : 36), 0, 36, 32), Color.White);
-				spriteBatch.DrawString(hugeFont, boat.Score + "", new Vector2((width - 25) - hugeFont.MeasureString(boat.Score + "").X + 2, 14), new Color(0.1f, 0.1f, 0.1f, 0.8f));
-				spriteBatch.DrawString(hugeFont, boat.Score + "", new Vector2((width - 25) - hugeFont.MeasureString(boat.Score + "").X, 12), Color.Black);
+
+				if (state != State.End)
+				{
+					spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2((width-25) - hugeFont.MeasureString(boat.Score + "").X+2, 14), new Color(0.1f, 0.1f, 0.1f, 0.8f));
+					spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2((width-25) - hugeFont.MeasureString(boat.Score + "").X, 12), Color.Black);
+				}
 			}
+
+			if (state == State.End)
+			{
+				spriteBatch.Draw(gameOverScreen, new Rectangle(0, 0, width, height), Color.White);
+				spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2(470+2, 168+2), new Color(0.1f, 0.1f, 0.1f, 0.8f));
+				spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2(470, 168), Color.Black);
+
+				spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2(470+2, 262+2), new Color(0.1f, 0.1f, 0.1f, 0.8f));
+				spriteBatch.DrawString(hugeFont, boat.Score+"", new Vector2(470, 262), Color.Black);
+			}
+
 			spriteBatch.End();
 
 			base.Draw(gameTime);
